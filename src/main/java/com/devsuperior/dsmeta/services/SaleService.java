@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.services;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
@@ -25,8 +26,12 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public Page<SaleReportDTO> getReport(Pageable pageable) {
-		Page<SaleReportDTO> result = repository.report(pageable);
+	public Page<SaleReportDTO> getReport(String minDate, String maxDate, String name, Pageable pageable) {
+
+		LocalDate iniDate = LocalDate.parse(minDate);
+		LocalDate fimDate = LocalDate.parse(maxDate);
+
+		Page<SaleReportDTO> result = repository.report(iniDate, fimDate, name, pageable);
 		return result;
 	}
 
