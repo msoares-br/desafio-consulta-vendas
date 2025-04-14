@@ -1,6 +1,6 @@
 package com.devsuperior.dsmeta.dto;
 
-import com.devsuperior.dsmeta.projections.SaleSummaryProjection;
+import com.devsuperior.dsmeta.entities.Sale;
 
 public class SaleSummaryDTO {
 
@@ -15,9 +15,9 @@ public class SaleSummaryDTO {
         this.summary = summary;
     }
 
-    public SaleSummaryDTO(SaleSummaryProjection projection) {
-        name = projection.getName();
-        summary = projection.getSummary();
+    public SaleSummaryDTO(Sale entity) {
+        name = entity.getSeller().getName();
+        summary = entity.getAmount();
     }
 
     public String getName() {
@@ -33,6 +33,15 @@ public class SaleSummaryDTO {
     }
 
     public void setSummary(Double summary) {
+
         this.summary = summary;
+    }
+
+    @Override
+    public String toString() {
+        return "SaleSummaryDTO{" +
+                "name='" + name + '\'' +
+                ", summary=" + summary +
+                '}';
     }
 }

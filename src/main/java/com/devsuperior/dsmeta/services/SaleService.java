@@ -3,6 +3,7 @@ package com.devsuperior.dsmeta.services;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
@@ -50,7 +51,7 @@ public class SaleService {
 		return result;
 	}
 
-	public Page<SaleSummaryDTO> getSummary(String minDate, String maxDate, Pageable pageable) {
+	public List<SaleSummaryDTO> getSummary(String minDate, String maxDate) {
 
 		LocalDate iniDate;
 		LocalDate fimDate;
@@ -68,7 +69,7 @@ public class SaleService {
 			   iniDate = LocalDate.parse(minDate);
 			}
 
-		Page<SaleSummaryDTO> result = repository.summary(iniDate, fimDate, pageable);
+		List<SaleSummaryDTO> result = repository.summary(iniDate, fimDate);
 		return result;
 	}
 
