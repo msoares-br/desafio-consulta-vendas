@@ -1,6 +1,8 @@
 package com.devsuperior.dsmeta.services;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
@@ -28,15 +30,45 @@ public class SaleService {
 
 	public Page<SaleReportDTO> getReport(String minDate, String maxDate, String name, Pageable pageable) {
 
-		LocalDate iniDate = LocalDate.parse(minDate);
-		LocalDate fimDate = LocalDate.parse(maxDate);
+		LocalDate iniDate;
+		LocalDate fimDate;
+
+		if ( maxDate.isEmpty()) {
+			fimDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+		}
+		else {
+			fimDate = LocalDate.parse(maxDate);
+		}
+
+		if ( minDate.isEmpty()) {
+			iniDate = fimDate.minusYears(1L);;
+		}   else {
+			iniDate = LocalDate.parse(minDate);
+		}
 
 		Page<SaleReportDTO> result = repository.report(iniDate, fimDate, name, pageable);
 		return result;
 	}
 
-	public Page<SaleSummaryDTO> getSummary(Pageable pageable) {
-		Page<SaleSummaryDTO> result = repository.summary(pageable);
+	public Page<SaleSummaryDTO> getSummary(String minDate, String maxDate, Pageable pageable) {
+
+		LocalDate iniDate;
+		LocalDate fimDate;
+
+		if ( maxDate.isEmpty()) {
+			fimDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+		}
+		else {
+			fimDate = LocalDate.parse(maxDate);
+		}
+
+		if ( minDate.isEmpty()) {
+			iniDate = fimDate.minusYears(1L);;
+		}   else {
+			   iniDate = LocalDate.parse(minDate);
+			}
+
+		Page<SaleSummaryDTO> result = repository.summary(iniDate, fimDate, pageable);
 		return result;
 	}
 
